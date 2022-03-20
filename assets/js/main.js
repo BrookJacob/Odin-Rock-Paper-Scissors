@@ -1,3 +1,6 @@
+let games = 0;
+let wins = 0;
+
 function computerPlay() {
     let options = ["rock", "paper", "scissors"]
     return options[Math.floor(Math.random() * 3)]
@@ -7,27 +10,37 @@ function play(playerSelection, computerSelection) {
     if ((computerSelection === "rock" && playerSelection === "scissors") ||
         (computerSelection === "scissors" && playerSelection === "paper") ||
         (computerSelection === "paper" && playerSelection === "rock")) {
-        document.querySelector('.win-or-lose').style.backgroundColor = "red";
-        document.querySelector('.win-or-lose').style.display = "block";
-        document.querySelector('.win-or-lose p').innerHTML = `The computer played ${computerSelection}. You lose!`
-            //console.log(`The computer played ${computerSelection}. You lose!`)
+        outcomeReaction("lose", "red", computerSelection);
     } else if ((computerSelection === "scissors" && playerSelection === "rock") ||
         (computerSelection === "paper" && playerSelection === "scissors") ||
         (computerSelection === "rock" && playerSelection === "paper")) {
-        document.querySelector('.win-or-lose').style.backgroundColor = "green";
-        document.querySelector('.win-or-lose').style.display = "block";
-        document.querySelector('.win-or-lose p').innerHTML = `The computer played ${computerSelection}. You win!`
-            //console.log(`The computer played ${computerSelection}. You win!`)
+        outcomeReaction("win", "green", computerSelection);
     } else {
-        document.querySelector('.win-or-lose').style.backgroundColor = "yellow";
-        document.querySelector('.win-or-lose').style.display = "block";
-        document.querySelector('.win-or-lose p').innerHTML = `The computer played ${computerSelection}. It's a draw!`
-        console.log(`The computer played ${computerSelection}. It's a draw!`)
+        outcomeReaction("tied", "yellow", computerSelection);
     }
 }
-const button = document.querySelector('.input-and-button input[type="button"]');
-button.addEventListener('click', function() {
-    let inputText = document.querySelector('.input-and-button input[type="text"]').value.toLowerCase();
-    console.log(inputText)
-    play(inputText, computerPlay())
+
+function outcomeReaction(outcome, outcomeColor, computerSelection) {
+    games += 1;
+    if (outcome == "win") {
+        wins += 1;
+    }
+
+    document.querySelector('.stats').style.display = "block";
+    document.querySelector('.games-played-count').innerHTML = games;
+
+    document.querySelector('.wins-percentage').innerHTML = Math.floor((wins / games) * 100) + "%";
+
+    document.querySelector('.win-or-lose').style.backgroundColor = outcomeColor;
+    document.querySelector('.win-or-lose').style.display = "block";
+    document.querySelector('.win-or-lose p').innerHTML = `The computer played ${computerSelection}. You ${outcome}!`;
+}
+const buttons = document.querySelectorAll('.button');
+
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        console.log(button.className.split(' ')[1]);
+
+        play(button.className.split(' ')[1], computerPlay())
+    })
 })
