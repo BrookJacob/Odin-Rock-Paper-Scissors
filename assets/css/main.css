@@ -20,6 +20,7 @@ h1 {
 .description {
     margin: 0;
     width: 500px;
+    text-align: center;
 }
 
 .buttons {
@@ -73,6 +74,13 @@ input[type="text"] {
 } */
 
 .win-or-lose {
+    width: 400px;
+    border-radius: 5px;
+    display: none;
+    text-align: center;
+}
+
+.win-or-lose-overall {
     width: 400px;
     border-radius: 5px;
     display: none;
